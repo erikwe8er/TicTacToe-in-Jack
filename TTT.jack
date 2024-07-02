@@ -1,0 +1,388 @@
+class TTT
+{
+
+    function void initBoard(Array Board)
+    {
+        // inicijalizira board
+        var int inc;
+        let inc = 0;
+        while(inc<9)
+        {
+            let Board[inc] = 3;
+            let inc = inc + 1;
+        }
+        return;
+    }
+
+
+    function int playGame()
+    {
+        // glavna funckija gdje se odvija igra
+        var int pc,human,result,key,selected_x,selected_y,spot,key_end;
+        var Array Board,helpBoard;
+        let human = Draw.startScreen();
+        if(human = 1)
+        {
+            let pc = 0;
+        }
+        else
+        {
+            let pc = 1;
+        }
+
+        do Screen.clearScreen();
+        do Sys.wait(100);
+
+        let Board = Array.new(9);
+        let helpBoard = Array.new(9);
+
+        do TTT.initBoard(Board);
+
+        do Draw.drawGame();
+        let result = TTT.checkBoard(Board);
+
+        let selected_x = 255;
+        let selected_y = 128;
+        let spot = 4;
+        
+        if(pc = 1)
+        {
+            do TTT.copy(Board,helpBoard);
+            do TTT.doBestMove(Board,helpBoard,pc);
+        }
+        do Draw.drawSelectedField(selected_x,selected_y,Board[spot]);
+        while(result = 3)
+        {   
+            let key = Keyboard.keyPressed();
+            if(key = 131)
+            {
+                if((selected_y - 70) > 57)
+                {
+                    do Draw.undrawSelectedField(selected_x,selected_y,Board[spot]);
+                    let selected_y = selected_y - 70;
+                    let spot = spot - 3;
+                    do Draw.drawSelectedField(selected_x,selected_y,Board[spot]);
+                }
+            }
+            if(key = 133)
+            {
+                if((selected_y + 70) < 199)
+                {
+                    do Draw.undrawSelectedField(selected_x,selected_y,Board[spot]);
+                    let selected_y = selected_y + 70;
+                    let spot = spot + 3;
+                    do Draw.drawSelectedField(selected_x,selected_y,Board[spot]);
+                }
+            }
+            if(key = 132)
+            {
+                if((selected_x + 70) < 326)
+                {
+                    do Draw.undrawSelectedField(selected_x,selected_y,Board[spot]);
+                    let selected_x = selected_x + 70;
+                    let spot = spot + 1;
+                    do Draw.drawSelectedField(selected_x,selected_y,Board[spot]);
+                }
+            }
+            if(key = 130)
+            {
+                if((selected_x - 70) > 184)
+                {
+                    do Draw.undrawSelectedField(selected_x,selected_y,Board[spot]);
+                    let selected_x = selected_x - 70;
+                    let spot = spot - 1;
+                    do Draw.drawSelectedField(selected_x,selected_y,Board[spot]);
+                }
+            }
+            if(key = 128)
+            {
+                if((Board[spot] = 3))
+                {
+                    let Board[spot] = human;
+                    do Draw.drawSelectedField(selected_x,selected_y,Board[spot]);
+                    do TTT.copy(Board,helpBoard);
+                    do TTT.doBestMove(Board,helpBoard,pc);
+                }
+            }
+            do Sys.wait(85);
+            let result = TTT.checkBoard(Board);
+        }
+        do Draw.drawWinner(Board);
+        do Sys.wait(900);
+        do Board.dispose();
+        do helpBoard.dispose();
+        do Draw.drawResult(result,human);
+        while(true)
+        {
+            let key_end = Keyboard.keyPressed();
+            if((key_end = 140) | key_end = 128)
+            {
+                return key_end;
+            }
+        }
+        do Screen.clearScreen();
+        return key_end;
+    }
+
+    function int checkBoard(Array Board)
+    {
+        // pregledava postoji li pobjednik
+        var int free;
+        let free = TTT.getFreeFields(Board);
+        //horizontalno
+        if((Board[0] = Board[1]) & (Board[1] = Board[2]) & ~(Board[0] = 3))
+        {
+            return Board[0];
+        }
+        if((Board[3] = Board[4]) & (Board[4] = Board[5]) & ~(Board[3] = 3))
+        {
+            return Board[3];
+        }
+        if((Board[6] = Board[7]) & (Board[7] = Board[8]) & ~(Board[6] = 3))
+        {
+            return Board[6];
+        }
+
+        //vertikalno
+        if((Board[0] = Board[3]) & (Board[3] = Board[6]) & ~(Board[0] = 3))
+        {
+            return Board[0];
+        }
+        if((Board[1] = Board[4]) & (Board[4] = Board[7]) & ~(Board[1] = 3))
+        {
+            return Board[1];
+        }
+        if((Board[2] = Board[5]) & (Board[5] = Board[8]) & ~(Board[2] = 3))
+        {
+            return Board[2];
+        }
+
+        //dijagonale
+        if((Board[0] = Board[4]) & (Board[4] = Board[8]) & ~(Board[0] = 3))
+        {
+            return Board[0];
+        }
+        if((Board[2] = Board[4]) & (Board[4] = Board[6]) & ~(Board[2] = 3))
+        {
+            return Board[2];
+        }
+        if(free = 0)
+        {
+            return 2;
+        }
+       
+        return 3;
+    }
+
+
+    function int getScore(Array Board)
+    {
+        // daje score boardu (potrebno za minimax i best move)
+        var int winner;
+        let winner = TTT.checkBoard(Board);
+        if(winner = 1)
+        {
+            return 10;
+        }
+        if(winner = 2)
+        {
+            return 0;
+        }
+        if(winner = 0)
+        {
+            return -10;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+
+    function void possibleMoves(Array Board, Array possibleMoves)
+    {
+        // pretrazuje moguce poteze
+        var int inc,move;
+        let inc = 0;
+        let move = 0;
+        while(inc<9)
+        {
+            if(Board[inc] = 3)
+            {
+                let possibleMoves[move] = inc;
+                let move = move + 1;
+            }
+            let inc = inc + 1;
+        }
+        return;
+    }
+
+
+    function int getFreeFields(Array Board)
+    {
+        // trazi koliko je polja boarda slobodno
+        var int inc,cnt;
+        let inc = 0;
+        let cnt = 0;
+        while(inc<9)
+        {
+            if(Board[inc] = 3)
+            {
+                let cnt = cnt + 1;
+            }
+            let inc = inc + 1;
+        }
+        return cnt;
+    }
+    
+
+    function void doBestMove(Array Board,Array helpBoard,int player)
+    {
+        // radi najbolji potez
+        var Array possibleMoves;
+        var int size,inc,bestScore,currentScore,bestMove,depth;
+        let depth = 0;
+        let size = TTT.getFreeFields(helpBoard);
+        if((size = 9) & (player = 1))
+        {
+            let Board[4] = player;
+            do Draw.drawMove(4,player);
+            return;
+        }
+        if((size = 8) & (player = 0))
+        {
+            if(Board[4] = 3)
+            {
+                let Board[4] = player;
+                do Draw.drawMove(4,player);
+            }
+            else
+            {
+                let Board[0] = player;
+                do Draw.drawMove(0,player);
+            }
+            return;
+        }
+        if(size = 0)
+        {
+            return;
+        }
+        let possibleMoves = Array.new(size);
+        let inc = 0;
+        do TTT.possibleMoves(helpBoard,possibleMoves);
+        if(player = 1)
+        {
+            let bestScore = -20;
+        }
+        else
+        {
+            let bestScore = 20;
+        }
+        while(inc < size)
+        {
+            let helpBoard[possibleMoves[inc]] = player;
+            if(player = 1)
+            {
+                let currentScore = TTT.minimax(helpBoard,0,depth);
+
+                if(currentScore > bestScore)
+                {
+                    let bestScore = currentScore;
+                    let bestMove = possibleMoves[inc];
+                }
+            }
+            else
+            {
+                let currentScore = TTT.minimax(helpBoard,1,depth);
+                if(currentScore < bestScore)
+                {
+                    let bestScore = currentScore;
+                    let bestMove = possibleMoves[inc];
+                }
+            }
+            let helpBoard[possibleMoves[inc]] = 3;
+            let inc = inc + 1;
+        }
+        let Board[bestMove] = player;
+        do Draw.drawMove(bestMove,player);
+        do possibleMoves.dispose();
+        return;
+    }
+
+    function int minimax(Array helpBoard, int player,int depth)
+    {
+        // prolazi kroz sve poteze i trazi najbolji
+        var int inc,size,bestScore,currentScore,other_player,winner,prev_value;
+        var Array possibleMoves;
+        let winner = TTT.getScore(helpBoard);
+        if(~(winner = 1))
+        {
+            return winner - depth; 
+        }
+        let depth = depth + 1;
+        let size = TTT.getFreeFields(helpBoard);
+        let possibleMoves = Array.new(size);
+        do TTT.possibleMoves(helpBoard,possibleMoves);
+        let inc = 0;
+        if(player = 1)
+        {
+            let bestScore = -20;
+            let other_player = 0;
+        }
+        else
+        {
+            let bestScore = 20;
+            let other_player = 1;
+        }
+        if(player = 1)
+        {
+             while(inc < size)
+            {
+                let prev_value = helpBoard[possibleMoves[inc]];
+                let helpBoard[possibleMoves[inc]] = player;
+                let currentScore = TTT.minimax(helpBoard,other_player,depth);
+                let helpBoard[possibleMoves[inc]] = prev_value;
+                if(currentScore > bestScore)
+                {
+                    let bestScore = currentScore;
+                } 
+
+                let inc = inc + 1;
+            }
+            do possibleMoves.dispose();
+            return bestScore;
+        }
+        else
+        {
+             while(inc < size)
+            {
+                let prev_value = helpBoard[possibleMoves[inc]];
+                let helpBoard[possibleMoves[inc]] = player;
+                let currentScore = TTT.minimax(helpBoard,other_player,depth);
+                let helpBoard[possibleMoves[inc]] = prev_value;
+                if(currentScore < bestScore)
+                {
+                    let bestScore = currentScore;
+                } 
+                let inc = inc + 1;
+            }
+            do possibleMoves.dispose();
+            return bestScore;
+        }
+    }
+
+
+    function void copy(Array Board1, Array Board2)
+    {
+        // kopira array u drugi
+        var int inc;
+        let inc = 0;
+        while(inc<9)
+        {
+            let Board2[inc] = Board1[inc];
+            let inc = inc + 1;
+        }
+        return;
+    }
+    
+    
+}

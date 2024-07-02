@@ -1,0 +1,1257 @@
+function TTT.initBoard 1
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 9
+lt
+not
+if-goto WHILE_END0
+push local 0
+push argument 0
+add
+push constant 3
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function TTT.playGame 10
+call Draw.startScreen 0
+pop local 1
+push local 1
+push constant 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop local 0
+goto IF_END0
+label IF_FALSE0
+push constant 1
+pop local 0
+label IF_END0
+call Screen.clearScreen 0
+pop temp 0
+push constant 100
+call Sys.wait 1
+pop temp 0
+push constant 9
+call Array.new 1
+pop local 8
+push constant 9
+call Array.new 1
+pop local 9
+push local 8
+call TTT.initBoard 1
+pop temp 0
+call Draw.drawGame 0
+pop temp 0
+push local 8
+call TTT.checkBoard 1
+pop local 2
+push constant 255
+pop local 4
+push constant 128
+pop local 5
+push constant 4
+pop local 6
+push local 0
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 8
+push local 9
+call TTT.copy 2
+pop temp 0
+push local 8
+push local 9
+push local 0
+call TTT.doBestMove 3
+pop temp 0
+label IF_FALSE1
+push local 4
+push local 5
+push local 6
+push local 8
+add
+pop pointer 1
+push that 0
+call Draw.drawSelectedField 3
+pop temp 0
+label WHILE_EXP0
+push local 2
+push constant 3
+eq
+not
+if-goto WHILE_END0
+call Keyboard.keyPressed 0
+pop local 3
+push local 3
+push constant 131
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push local 5
+push constant 70
+sub
+push constant 57
+gt
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push local 4
+push local 5
+push local 6
+push local 8
+add
+pop pointer 1
+push that 0
+call Draw.undrawSelectedField 3
+pop temp 0
+push local 5
+push constant 70
+sub
+pop local 5
+push local 6
+push constant 3
+sub
+pop local 6
+push local 4
+push local 5
+push local 6
+push local 8
+add
+pop pointer 1
+push that 0
+call Draw.drawSelectedField 3
+pop temp 0
+label IF_FALSE3
+label IF_FALSE2
+push local 3
+push constant 133
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push local 5
+push constant 70
+add
+push constant 199
+lt
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push local 4
+push local 5
+push local 6
+push local 8
+add
+pop pointer 1
+push that 0
+call Draw.undrawSelectedField 3
+pop temp 0
+push local 5
+push constant 70
+add
+pop local 5
+push local 6
+push constant 3
+add
+pop local 6
+push local 4
+push local 5
+push local 6
+push local 8
+add
+pop pointer 1
+push that 0
+call Draw.drawSelectedField 3
+pop temp 0
+label IF_FALSE5
+label IF_FALSE4
+push local 3
+push constant 132
+eq
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push local 4
+push constant 70
+add
+push constant 326
+lt
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push local 4
+push local 5
+push local 6
+push local 8
+add
+pop pointer 1
+push that 0
+call Draw.undrawSelectedField 3
+pop temp 0
+push local 4
+push constant 70
+add
+pop local 4
+push local 6
+push constant 1
+add
+pop local 6
+push local 4
+push local 5
+push local 6
+push local 8
+add
+pop pointer 1
+push that 0
+call Draw.drawSelectedField 3
+pop temp 0
+label IF_FALSE7
+label IF_FALSE6
+push local 3
+push constant 130
+eq
+if-goto IF_TRUE8
+goto IF_FALSE8
+label IF_TRUE8
+push local 4
+push constant 70
+sub
+push constant 184
+gt
+if-goto IF_TRUE9
+goto IF_FALSE9
+label IF_TRUE9
+push local 4
+push local 5
+push local 6
+push local 8
+add
+pop pointer 1
+push that 0
+call Draw.undrawSelectedField 3
+pop temp 0
+push local 4
+push constant 70
+sub
+pop local 4
+push local 6
+push constant 1
+sub
+pop local 6
+push local 4
+push local 5
+push local 6
+push local 8
+add
+pop pointer 1
+push that 0
+call Draw.drawSelectedField 3
+pop temp 0
+label IF_FALSE9
+label IF_FALSE8
+push local 3
+push constant 128
+eq
+if-goto IF_TRUE10
+goto IF_FALSE10
+label IF_TRUE10
+push local 6
+push local 8
+add
+pop pointer 1
+push that 0
+push constant 3
+eq
+if-goto IF_TRUE11
+goto IF_FALSE11
+label IF_TRUE11
+push local 6
+push local 8
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 4
+push local 5
+push local 6
+push local 8
+add
+pop pointer 1
+push that 0
+call Draw.drawSelectedField 3
+pop temp 0
+push local 8
+push local 9
+call TTT.copy 2
+pop temp 0
+push local 8
+push local 9
+push local 0
+call TTT.doBestMove 3
+pop temp 0
+label IF_FALSE11
+label IF_FALSE10
+push constant 85
+call Sys.wait 1
+pop temp 0
+push local 8
+call TTT.checkBoard 1
+pop local 2
+goto WHILE_EXP0
+label WHILE_END0
+push local 8
+call Draw.drawWinner 1
+pop temp 0
+push constant 900
+call Sys.wait 1
+pop temp 0
+push local 8
+call Array.dispose 1
+pop temp 0
+push local 9
+call Array.dispose 1
+pop temp 0
+push local 2
+push local 1
+call Draw.drawResult 2
+pop temp 0
+label WHILE_EXP1
+push constant 0
+not
+not
+if-goto WHILE_END1
+call Keyboard.keyPressed 0
+pop local 7
+push local 7
+push constant 140
+eq
+push local 7
+or
+push constant 128
+eq
+if-goto IF_TRUE12
+goto IF_FALSE12
+label IF_TRUE12
+push local 7
+return
+label IF_FALSE12
+goto WHILE_EXP1
+label WHILE_END1
+call Screen.clearScreen 0
+pop temp 0
+push local 7
+return
+function TTT.checkBoard 1
+push argument 0
+call TTT.getFreeFields 1
+pop local 0
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 2
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+and
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 3
+eq
+not
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+return
+label IF_FALSE0
+push constant 3
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 4
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+push constant 4
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 5
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+and
+push constant 3
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 3
+eq
+not
+and
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 3
+push argument 0
+add
+pop pointer 1
+push that 0
+return
+label IF_FALSE1
+push constant 6
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 7
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+push constant 7
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 8
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+and
+push constant 6
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 3
+eq
+not
+and
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 6
+push argument 0
+add
+pop pointer 1
+push that 0
+return
+label IF_FALSE2
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 3
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+push constant 3
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 6
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+and
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 3
+eq
+not
+and
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+return
+label IF_FALSE3
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 4
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+push constant 4
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 7
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+and
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 3
+eq
+not
+and
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+return
+label IF_FALSE4
+push constant 2
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 5
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+push constant 5
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 8
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+and
+push constant 2
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 3
+eq
+not
+and
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push constant 2
+push argument 0
+add
+pop pointer 1
+push that 0
+return
+label IF_FALSE5
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 4
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+push constant 4
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 8
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+and
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 3
+eq
+not
+and
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+return
+label IF_FALSE6
+push constant 2
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 4
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+push constant 4
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 6
+push argument 0
+add
+pop pointer 1
+push that 0
+eq
+and
+push constant 2
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 3
+eq
+not
+and
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push constant 2
+push argument 0
+add
+pop pointer 1
+push that 0
+return
+label IF_FALSE7
+push local 0
+push constant 0
+eq
+if-goto IF_TRUE8
+goto IF_FALSE8
+label IF_TRUE8
+push constant 2
+return
+label IF_FALSE8
+push constant 3
+return
+function TTT.getScore 1
+push argument 0
+call TTT.checkBoard 1
+pop local 0
+push local 0
+push constant 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 10
+return
+label IF_FALSE0
+push local 0
+push constant 2
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+return
+label IF_FALSE1
+push local 0
+push constant 0
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 10
+neg
+return
+goto IF_END2
+label IF_FALSE2
+push constant 1
+return
+label IF_END2
+function TTT.possibleMoves 2
+push constant 0
+pop local 0
+push constant 0
+pop local 1
+label WHILE_EXP0
+push local 0
+push constant 9
+lt
+not
+if-goto WHILE_END0
+push local 0
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 3
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 1
+push argument 1
+add
+push local 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 1
+push constant 1
+add
+pop local 1
+label IF_FALSE0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function TTT.getFreeFields 2
+push constant 0
+pop local 0
+push constant 0
+pop local 1
+label WHILE_EXP0
+push local 0
+push constant 9
+lt
+not
+if-goto WHILE_END0
+push local 0
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 3
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 1
+push constant 1
+add
+pop local 1
+label IF_FALSE0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push local 1
+return
+function TTT.doBestMove 7
+push constant 0
+pop local 6
+push argument 1
+call TTT.getFreeFields 1
+pop local 1
+push local 1
+push constant 9
+eq
+push argument 2
+push constant 1
+eq
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 4
+push argument 0
+add
+push argument 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push argument 2
+call Draw.drawMove 2
+pop temp 0
+push constant 0
+return
+label IF_FALSE0
+push local 1
+push constant 8
+eq
+push argument 2
+push constant 0
+eq
+and
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 4
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 3
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 4
+push argument 0
+add
+push argument 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push argument 2
+call Draw.drawMove 2
+pop temp 0
+goto IF_END2
+label IF_FALSE2
+push constant 0
+push argument 0
+add
+push argument 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push argument 2
+call Draw.drawMove 2
+pop temp 0
+label IF_END2
+push constant 0
+return
+label IF_FALSE1
+push local 1
+push constant 0
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+return
+label IF_FALSE3
+push local 1
+call Array.new 1
+pop local 0
+push constant 0
+pop local 2
+push argument 1
+push local 0
+call TTT.possibleMoves 2
+pop temp 0
+push argument 2
+push constant 1
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 20
+neg
+pop local 3
+goto IF_END4
+label IF_FALSE4
+push constant 20
+pop local 3
+label IF_END4
+label WHILE_EXP0
+push local 2
+push local 1
+lt
+not
+if-goto WHILE_END0
+push local 2
+push local 0
+add
+pop pointer 1
+push that 0
+push argument 1
+add
+push argument 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push argument 2
+push constant 1
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push argument 1
+push constant 0
+push local 6
+call TTT.minimax 3
+pop local 4
+push local 4
+push local 3
+gt
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push local 4
+pop local 3
+push local 2
+push local 0
+add
+pop pointer 1
+push that 0
+pop local 5
+label IF_FALSE6
+goto IF_END5
+label IF_FALSE5
+push argument 1
+push constant 1
+push local 6
+call TTT.minimax 3
+pop local 4
+push local 4
+push local 3
+lt
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push local 4
+pop local 3
+push local 2
+push local 0
+add
+pop pointer 1
+push that 0
+pop local 5
+label IF_FALSE7
+label IF_END5
+push local 2
+push local 0
+add
+pop pointer 1
+push that 0
+push argument 1
+add
+push constant 3
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 2
+push constant 1
+add
+pop local 2
+goto WHILE_EXP0
+label WHILE_END0
+push local 5
+push argument 0
+add
+push argument 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 5
+push argument 2
+call Draw.drawMove 2
+pop temp 0
+push local 0
+call Array.dispose 1
+pop temp 0
+push constant 0
+return
+function TTT.minimax 8
+push argument 0
+call TTT.getScore 1
+pop local 5
+push local 5
+push constant 1
+eq
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 5
+push argument 2
+sub
+return
+label IF_FALSE0
+push argument 2
+push constant 1
+add
+pop argument 2
+push argument 0
+call TTT.getFreeFields 1
+pop local 1
+push local 1
+call Array.new 1
+pop local 7
+push argument 0
+push local 7
+call TTT.possibleMoves 2
+pop temp 0
+push constant 0
+pop local 0
+push argument 1
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 20
+neg
+pop local 2
+push constant 0
+pop local 4
+goto IF_END1
+label IF_FALSE1
+push constant 20
+pop local 2
+push constant 1
+pop local 4
+label IF_END1
+push argument 1
+push constant 1
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+label WHILE_EXP0
+push local 0
+push local 1
+lt
+not
+if-goto WHILE_END0
+push local 0
+push local 7
+add
+pop pointer 1
+push that 0
+push argument 0
+add
+pop pointer 1
+push that 0
+pop local 6
+push local 0
+push local 7
+add
+pop pointer 1
+push that 0
+push argument 0
+add
+push argument 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push argument 0
+push local 4
+push argument 2
+call TTT.minimax 3
+pop local 3
+push local 0
+push local 7
+add
+pop pointer 1
+push that 0
+push argument 0
+add
+push local 6
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 3
+push local 2
+gt
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push local 3
+pop local 2
+label IF_FALSE3
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push local 7
+call Array.dispose 1
+pop temp 0
+push local 2
+return
+goto IF_END2
+label IF_FALSE2
+label WHILE_EXP1
+push local 0
+push local 1
+lt
+not
+if-goto WHILE_END1
+push local 0
+push local 7
+add
+pop pointer 1
+push that 0
+push argument 0
+add
+pop pointer 1
+push that 0
+pop local 6
+push local 0
+push local 7
+add
+pop pointer 1
+push that 0
+push argument 0
+add
+push argument 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push argument 0
+push local 4
+push argument 2
+call TTT.minimax 3
+pop local 3
+push local 0
+push local 7
+add
+pop pointer 1
+push that 0
+push argument 0
+add
+push local 6
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 3
+push local 2
+lt
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push local 3
+pop local 2
+label IF_FALSE4
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP1
+label WHILE_END1
+push local 7
+call Array.dispose 1
+pop temp 0
+push local 2
+return
+label IF_END2
+function TTT.copy 1
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 9
+lt
+not
+if-goto WHILE_END0
+push local 0
+push argument 1
+add
+push local 0
+push argument 0
+add
+pop pointer 1
+push that 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return

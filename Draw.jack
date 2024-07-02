@@ -1,0 +1,504 @@
+class Draw
+{
+    function void drawEmpty(string player,int y0,int y1,int cursor_i,int cursor_j)
+    {
+        //iscrtava neodabrani gumb
+        do Screen.drawLine(190,y0,190,y1);
+        do Screen.drawLine(190,y0,320,y0);
+        do Screen.drawLine(320,y0,320,y1);
+        do Screen.drawLine(190,y1,320,y1);
+        do Output.moveCursor(cursor_i,cursor_j);
+        do Output.printString(player);
+
+        return;
+    }
+    function void drawSelected(string player,int y0,int y1,int cursor_i,int cursor_j)
+    {
+        //iscrtava odabrani gumb
+        do Screen.drawRectangle(190,y0,320,y1);
+        do Output.moveCursor(cursor_i,cursor_j);
+        do Output.printString(player);
+        do Output.moveCursor(0,0);
+
+        return;
+    }
+
+    function void  printInstructions(int screen,int variation)
+    {
+        //ispisuje instrukcije ovisno o zaslonu na kojem jesmo
+        if(screen = 1)
+        {
+            if(variation = 1)
+            {
+                do Output.moveCursor(8,0);
+                do Output.printString("INSTRUCTIONS");
+                do Output.moveCursor(10,0);
+                do Output.printString(" Use UP and DOWN");
+                do Output.println();
+                do Output.printString("    to choose!");
+                do Output.println();
+                do Output.println();
+                do Output.printString("  X plays first.");
+                do Screen.drawLine(0,102,138,102);
+                do Screen.drawLine(138,102,138,160);
+                do Screen.drawLine(138,160,0,160);
+                do Screen.drawLine(0,137,138,137);
+            }
+            if(variation = 2)
+            {
+                do Output.moveCursor(8,0);
+                do Output.printString("INSTRUCTIONS");
+                do Output.moveCursor(10,0);
+                do Output.printString(" Use UP, DOWN");
+                do Output.println();
+                do Output.printString(" LEFT, RIGHT and");
+                do Output.println();
+                do Output.printString(" ENTER to choose!");
+                do Screen.drawLine(0,102,138,102);
+                do Screen.drawLine(138,102,138,153);
+                do Screen.drawLine(138,153,0,153);
+            }
+        }
+        return;
+    }
+
+    function void printTitle()
+    {
+        //iscrtava naslov
+        
+        //T
+        do Screen.drawRectangle(152,2,202,19); 
+        do Screen.drawRectangle(170,2,184,50); 
+        //i
+        do Screen.drawRectangle(190,35,196,50);
+        do Screen.drawCircle(193,27,4);
+        //c
+        do Screen.drawRectangle(202,31,208,50);
+        do Screen.drawRectangle(202,31,214,37);
+        do Screen.drawRectangle(202,44,214,50);
+        
+        //T
+        do Screen.drawRectangle(214,2,264,19);
+        do Screen.drawRectangle(232,2,246,50);
+        //a
+        do Screen.drawRectangle(252,35,258,50);
+        do Screen.drawRectangle(252,31,268,37);
+        do Screen.drawRectangle(252,44,270,50);
+        do Screen.drawRectangle(262,35,268,50);
+        //c
+        do Screen.drawRectangle(274,31,280,50);
+        do Screen.drawRectangle(274,31,286,37);
+        do Screen.drawRectangle(274,44,286,50);
+
+        //T
+        do Screen.drawRectangle(276,2,326,19);
+        do Screen.drawRectangle(294,2,308,50);
+        //o
+        do Screen.drawRectangle(314,35,320,50);
+        do Screen.drawRectangle(314,31,330,37);
+        do Screen.drawRectangle(314,44,330,50);
+        do Screen.drawRectangle(324,35,330,50);
+        //e
+        do Screen.drawRectangle(336,35,342,50);
+        do Screen.drawRectangle(336,31,352,37);
+        do Screen.drawRectangle(336,47,352,50);
+        do Screen.drawRectangle(343,40,352,45);
+        do Screen.drawRectangle(346,35,352,45);
+        return;
+    }
+
+    function void clear_button(int player)
+    {
+        //iscrtava neodabrani gumb
+        var int start_clearing,count_nine;
+        if(player = 0)
+        {
+            let start_clearing = 20843;
+            let count_nine = 0;
+            while(start_clearing<21973)
+            {
+                if(count_nine = 9)
+                {   
+                    let start_clearing = start_clearing + 23;
+                    let count_nine = 0;
+                }
+                else
+                {
+                    do Memory.poke(start_clearing,0);
+                    let start_clearing = start_clearing + 1;
+                    let count_nine = count_nine + 1;
+                }
+            }
+        }
+        else
+        {
+            let start_clearing = 19659;
+            let count_nine = 0;
+            while(start_clearing<20629)
+            {
+                if(count_nine = 9)
+                {   
+                    let start_clearing = start_clearing + 23;
+                    let count_nine = 0;
+                }
+                else
+                {
+                    do Memory.poke(start_clearing,0);
+                    let start_clearing = start_clearing + 1;
+                    let count_nine = count_nine + 1;
+                }
+            }
+        }
+        return;
+    }
+
+
+    function int startScreen()
+    {
+        // ispisuje pocetni zaslon
+        var char key;
+        var Strings first,second;
+        var int player;
+        let first = " Play as X ";
+        let second = " Play as O ";
+        let player = 1;
+        
+        do Draw.printTitle();
+
+        do Draw.drawSelected(first,102,132,10,27);
+
+        do Draw.drawEmpty(second,144,174,14,27);
+
+        do Draw.printInstructions(1,1);
+
+        do Output.moveCursor(18,22);
+        do Output.printString("Press ENTER To Start");
+
+        while(true)
+        {
+            let key = Keyboard.keyPressed();
+            if(key = 131)
+            {
+                if(~(player = 1))
+                {
+                    do Draw.clear_button(0);
+
+                    do Draw.drawEmpty(second,144,174,14,27);
+
+                    do Screen.drawRectangle(190,102,320,132);
+
+                    do Draw.drawSelected(first,102,132,10,27);
+                    
+                    let player = 1;
+                }
+            }
+            if(key = 133)
+            {
+                if(~(player = 0))
+                {
+                    do Draw.clear_button(1);
+
+                    do Draw.drawEmpty(first,102,132,10,27);
+
+                    do Draw.drawSelected(second,144,174,14,27);
+
+                    let player = 0;
+                }
+            }
+            if(key = 128)
+            {
+                return player;
+            }
+        }
+        return -1;
+    }
+
+    function void drawX(int x, int y)
+    {
+        //crta X
+        do Screen.drawLine(x-27,y-27,x+27,y+27);
+        do Screen.drawLine(x-27,y+27,x+27,y-27);
+
+        do Screen.drawLine(x-27,y-26,x+27,y+28);
+        do Screen.drawLine(x-27,y+28,x+27,y-26);
+
+        do Screen.drawLine(x-27,y-25,x+27,y+29);
+        do Screen.drawLine(x-27,y+29,x+27,y-25);
+        return;
+    }
+
+    function void drawO(int x, int y)
+    {
+        //crta O
+        do Screen.drawCircle(x,y,31);
+        do Screen.setColor(false);
+        do Screen.drawCircle(x,y,29);
+        do Screen.setColor(true);
+        return;
+    }
+
+
+    function void drawGame()
+    {
+        // iscrtava board
+        do Screen.drawLine(220,23,220,233);
+        do Screen.drawLine(290,23,290,233);
+        do Screen.drawLine(150,93,360,93);
+        do Screen.drawLine(150,163,360,163);
+        
+        do Draw.printInstructions(1,2);
+        return;
+    }
+
+    function void drawSelectedField(int x,int y,int symbol)
+    {
+        // iscrtava oznaceno polje na boardu
+        if(symbol = 3)
+        {
+            do Screen.drawRectangle(x-31,y-31,x+31,y+31);
+        }
+        if(symbol = 0)
+        {
+            do Screen.drawRectangle(x-31,y-31,x+31,y+31);
+            do Screen.setColor(false);
+            do Screen.drawCircle(x,y,31);
+            do Screen.setColor(true);
+            do Screen.drawCircle(x,y,29);
+        }
+        if(symbol = 1)
+        {
+            do Screen.drawRectangle(x-31,y-31,x+31,y+31);
+            do Screen.setColor(false);
+            do Draw.drawX(x,y);
+            do Screen.setColor(true);
+        }
+        return;
+    }
+
+    function void undrawSelectedField(int x,int y,int symbol)
+    {
+        //iscrtava neoznaceno polje boarda
+        if(symbol = 3)
+        {
+            do Screen.setColor(false);
+            do Screen.drawRectangle(x-31,y-31,x+31,y+31);
+            do Screen.setColor(true);
+        }
+        if(symbol = 0)
+        {
+            do Screen.setColor(false);
+            do Screen.drawRectangle(x-31,y-31,x+31,y+31);
+            do Screen.setColor(true);
+            do Draw.drawO(x,y);
+        }
+        if(symbol = 1)
+        {
+            do Screen.setColor(false);
+            do Screen.drawRectangle(x-31,y-31,x+31,y+31);
+            do Screen.setColor(true);
+            do Draw.drawX(x,y);
+        }
+        return;
+    }
+
+    function void drawMove(int move,int player)
+    {
+        // iscrtava napravljeni potez
+        if(move = 0)
+        {
+            do Draw.undrawSelectedField(185,58,player);
+        }
+        if(move = 1)
+        {
+            do Draw.undrawSelectedField(255,58,player);
+        }
+        if(move = 2)
+        {
+            do Draw.undrawSelectedField(325,58,player);
+        }
+        if(move = 3)
+        {
+            do Draw.undrawSelectedField(185,128,player);
+        }
+        if(move = 4)
+        {
+            do Draw.undrawSelectedField(255,128,player);
+        }
+        if(move = 5)
+        {
+            do Draw.undrawSelectedField(325,128,player);
+        }
+        if(move = 6)
+        {
+            do Draw.undrawSelectedField(185,198,player);
+        }
+        if(move = 7)
+        {
+            do Draw.undrawSelectedField(255,198,player);
+        }
+        if(move = 8)
+        {
+            do Draw.undrawSelectedField(325,198,player);
+        }
+        return;
+    }
+
+    function void undrawBoard(Array Board)
+    {
+        // odznacava sva polja na boardu
+        if(~(Board[0] = 3))
+        {
+            do Draw.undrawSelectedField(185,58,Board[0]);
+        }
+
+        if(~(Board[1] = 3))
+        {
+            do Draw.undrawSelectedField(255,58,Board[1]);
+        }
+
+        if(~(Board[2] = 3))
+        {
+            do Draw.undrawSelectedField(325,58,Board[2]);
+        }
+        
+        if(~(Board[3] = 3))
+        {
+            do Draw.undrawSelectedField(185,128,Board[3]);
+        }
+
+        if(~(Board[4] = 3))
+        {
+            do Draw.undrawSelectedField(255,128,Board[4]);
+        }
+
+        if(~(Board[5] = 3))
+        {
+            do Draw.undrawSelectedField(325,128,Board[5]);
+        }
+
+        if(~(Board[6] = 3))
+        {
+            do Draw.undrawSelectedField(185,198,Board[6]);
+        }
+
+        if(~(Board[7] = 3))
+        {
+            do Draw.undrawSelectedField(255,198,Board[7]);
+        }
+
+        if(~(Board[8] = 3))
+        {
+            do Draw.undrawSelectedField(325,198,Board[8]);
+        }
+        return;
+    }
+
+     function void drawWinner(Array Board)
+    {
+        // oznacava pobjednicki niz
+        do Draw.undrawBoard(Board);
+        //horizontalno
+        if((Board[0] = Board[1]) & (Board[1] = Board[2]) & ~(Board[0] = 3))
+        {
+            do Draw.drawSelectedField(185,58,Board[0]);
+            do Draw.drawSelectedField(255,58,Board[0]);
+            do Draw.drawSelectedField(325,58,Board[0]);
+            return;
+        }
+        if((Board[3] = Board[4]) & (Board[4] = Board[5]) & ~(Board[3] = 3))
+        {
+            do Draw.drawSelectedField(185,128,Board[3]);
+            do Draw.drawSelectedField(255,128,Board[3]);
+            do Draw.drawSelectedField(325,128,Board[3]);
+            return;
+        }
+        if((Board[6] = Board[7]) & (Board[7] = Board[8]) & ~(Board[6] = 3))
+        {
+            do Draw.drawSelectedField(185,198,Board[6]);
+            do Draw.drawSelectedField(255,198,Board[6]);
+            do Draw.drawSelectedField(325,198,Board[6]);
+            return;
+        }
+
+        //vertikalno
+        if((Board[0] = Board[3]) & (Board[3] = Board[6]) & ~(Board[0] = 3))
+        {
+            do Draw.drawSelectedField(185,58,Board[0]);
+            do Draw.drawSelectedField(185,128,Board[0]);
+            do Draw.drawSelectedField(185,198,Board[0]);
+            return;
+        }
+        if((Board[1] = Board[4]) & (Board[4] = Board[7]) & ~(Board[1] = 3))
+        {
+            do Draw.drawSelectedField(255,58,Board[1]);
+            do Draw.drawSelectedField(255,128,Board[1]);
+            do Draw.drawSelectedField(255,198,Board[1]);
+            return;
+        }
+        if((Board[2] = Board[5]) & (Board[5] = Board[8]) & ~(Board[2] = 3))
+        {
+            do Draw.drawSelectedField(325,58,Board[2]);
+            do Draw.drawSelectedField(325,128,Board[2]);
+            do Draw.drawSelectedField(325,198,Board[2]);
+            return;
+        }
+        //dijagonale
+        if((Board[0] = Board[4]) & (Board[4] = Board[8]) & ~(Board[0] = 3))
+        {
+            do Draw.drawSelectedField(185,58,Board[0]);
+            do Draw.drawSelectedField(255,128,Board[0]);
+            do Draw.drawSelectedField(325,198,Board[0]);
+            return;
+        }
+        if((Board[2] = Board[4]) & (Board[4] = Board[6]) & ~(Board[2] = 3))
+        {
+            do Draw.drawSelectedField(185,198,Board[2]);
+            do Draw.drawSelectedField(255,128,Board[2]);
+            do Draw.drawSelectedField(325,58,Board[2]);
+            return;
+        }
+        return;
+    }
+
+
+    function void drawResult(int result, int human)
+    {
+        // iscrtava posljednji zaslon
+        do Screen.clearScreen();
+        
+        if(result = 2)
+        {
+            do Output.moveCursor(8,25);
+            do Output.printString("It's a draw!");
+            do Output.moveCursor(10,22);
+            do Output.printString("Made by: Erik Weber");
+            do Output.moveCursor(15,22);
+            do Output.printString("Press ESC to exit!");
+            return;
+        }
+
+        if(~(result = human))
+        {
+            do Output.moveCursor(8,25);
+            do Output.printString("Computer wins!");
+            do Output.moveCursor(10,22);
+            do Output.printString("Made by:  Erik Weber");
+            do Output.moveCursor(15,22);
+            do Output.printString(" Press ESC to exit!");
+            return;
+        }
+
+        if(result = human)
+        {
+            do Output.moveCursor(210,93);
+            do Output.printString("You win!");
+            do Output.moveCursor(210,163);
+            do Output.printString("Made by: Erik Weber");
+            do Output.moveCursor(210,193);
+            do Output.printString(" Press ESC to exit!");
+            return;
+        }
+        
+        return;
+    }
+}
